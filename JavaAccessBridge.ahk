@@ -1687,6 +1687,305 @@ GetTextAttributesInRange(vmID, ac, startc=0, endc=0)
 	Return TempInfo
 }
 
+; AccessibleTable
+
+; retrieves the table information as an object with the keys: 
+; caption (AccesibleContext), summary (AccesibleContext), rowCount, 
+; columnCount, accessibleContext, accessibleTable
+GetAccessibleTableInfo(vmID, ac)
+{
+	global JABVariables
+	TempInfo:=Object()
+	if (JABVariables["JABInitialised"])
+	{
+		VarSetCapacity(Info, 40,0)
+		len:=endc-startc+1
+		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableInfo", "Int", vmID, JABVariables["acType"], ac, "Ptr", &Info, "Cdecl Int"))
+		{
+			offset:=0
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["caption"]:=jver
+			offset:=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["summary"]:=jver
+			offset+=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["rowCount"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["columnCount"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["accessibleContext"]:=jver
+			offset+=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["accessibleTable"]:=jver
+		}
+		else
+		{
+			msgbox, Error in GetAccessibleTableInfo vmID: %vmID% ac: %ac%
+		}
+	}
+	Return TempInfo
+}
+
+; retrieves the table cell information as an object with the keys: 
+; accessibleContext, index, row, column, rowExtent, columnExtent, isSelected
+GetAccessibleTableCellInfo(vmID, ac, row, column)
+{
+	global JABVariables
+	TempInfo:=Object()
+	if (JABVariables["JABInitialised"])
+	{
+		VarSetCapacity(Info, 28,0)
+		len:=endc-startc+1
+		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableCellInfo", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Int", column, "Ptr", &Info, "Cdecl Int"))
+		{
+			offset:=0
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["index"]:=jver
+			offset:=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["row"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["column"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["rowExtent"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["columnExtent"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["isSelected"]:=jver
+		}
+		else
+		{
+			msgbox, Error in GetAccessibleTableCellInfo vmID: %vmID% ac: %ac%
+		}
+	}
+	Return TempInfo
+}
+
+; retrieves the table row header information as an object with the keys: 
+; caption (AccesibleContext), summary (AccesibleContext), rowCount, 
+; columnCount, accessibleContext, accessibleTable
+GetAccessibleTableRowHeader(vmID, ac)
+{
+	global JABVariables
+	TempInfo:=Object()
+	if (JABVariables["JABInitialised"])
+	{
+		VarSetCapacity(Info, 40,0)
+		len:=endc-startc+1
+		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowHeader", "Int", vmID, JABVariables["acType"], ac, "Ptr", &Info, "Cdecl Int"))
+		{
+			offset:=0
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["caption"]:=jver
+			offset:=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["summary"]:=jver
+			offset+=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["rowCount"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["columnCount"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["accessibleContext"]:=jver
+			offset+=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["accessibleTable"]:=jver
+		}
+		else
+		{
+			msgbox, Error in GetAccessibleTableRowHeader vmID: %vmID% ac: %ac%
+		}
+	}
+	Return TempInfo
+}
+
+; retrieves the table column header information as an object with the keys: 
+; caption (AccesibleContext), summary (AccesibleContext), rowCount, 
+; columnCount, accessibleContext, accessibleTable
+GetAccessibleTableColumnHeader(vmID, ac)
+{
+	global JABVariables
+	TempInfo:=Object()
+	if (JABVariables["JABInitialised"])
+	{
+		VarSetCapacity(Info, 40,0)
+		len:=endc-startc+1
+		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnHeader", "Int", vmID, JABVariables["acType"], ac, "Ptr", &Info, "Cdecl Int"))
+		{
+			offset:=0
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["caption"]:=jver
+			offset:=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["summary"]:=jver
+			offset+=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["rowCount"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,"Int")
+			TempInfo["columnCount"]:=jver
+			offset+=4
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["accessibleContext"]:=jver
+			offset+=JABVariables["acSize"]
+			jver:=NumGet(&Info,offset,JABVariables["acType"])
+			TempInfo["accessibleTable"]:=jver
+		}
+		else
+		{
+			msgbox, Error in GetAccessibleTableColumnHeader vmID: %vmID% ac: %ac%
+		}
+	}
+	Return TempInfo
+}
+
+GetAccessibleTableRowDescription(vmID, ac, row)
+{
+	global JABVariables
+	acchild:=0
+	if (JABVariables["JABInitialised"])
+	{
+		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowDescription", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl "JABVariables["acType"])  
+	}
+	Return, acchild
+}
+
+GetAccessibleTableColumnDescription(vmID, ac, column)
+{
+	global JABVariables
+	acchild:=0
+	if (JABVariables["JABInitialised"])
+	{
+		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnDescription", "Int", vmID, JABVariables["acType"], ac, "Int", column, "Cdecl "JABVariables["acType"])  
+	}
+	Return, acchild
+}
+
+GetAccessibleTableRowSelectionCount(vmID, ac)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
+IsAccessibleTableRowSelected(vmID, ac, row)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableRowSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
+GetAccessibleTableRowSelections(vmID, ac)
+{
+	global JABVariables
+	Children:=Object()
+	if (JABVariables["JABInitialised"])
+	{
+		NumChild:=GetAccessibleTableRowSelectionCount(vmID, ac)
+		VarSetCapacity(TempChildren, 64*JABVariables["acSize"],0)
+		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowSelections", "Int", vmID, JABVariables["acType"], ac, "Int", NumChild, "Ptr", &TempChildren, "Cdecl Int"))
+		{
+			retchild:=NumGet(&TempChildren,0,"Int")
+			str:=retchild ";;"
+			Loop, %retchild%
+			{
+				Children[++cnt]:=Numget(&TempChildren, JABVariables["acSize"]*(A_Index), JABVariables["acType"])
+			}
+			StartChild:=StartChild+retchild
+		}
+		else break
+	}
+	Return Children
+}
+
+GetAccessibleTableColumnSelectionCount(vmID, ac)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
+IsAccessibleTableColumnSelected(vmID, ac, row)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableColumnSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
+GetAccessibleTableColumnSelections(vmID, ac)
+{
+	global JABVariables
+	Children:=Object()
+	if (JABVariables["JABInitialised"])
+	{
+		NumChild:=GetAccessibleTableRowSelectionCount(vmID, ac)
+		VarSetCapacity(TempChildren, 64*JABVariables["acSize"],0)
+		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnSelections", "Int", vmID, JABVariables["acType"], ac, "Int", NumChild, "Ptr", &TempChildren, "Cdecl Int"))
+		{
+			retchild:=NumGet(&TempChildren,0,"Int")
+			str:=retchild ";;"
+			Loop, %retchild%
+			{
+				Children[++cnt]:=Numget(&TempChildren, JABVariables["acSize"]*(A_Index), JABVariables["acType"])
+			}
+			StartChild:=StartChild+retchild
+		}
+		else break
+	}
+	Return Children
+}
+
+GetAccessibleTableRow(vmID, ac, index)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRow", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
+GetAccessibleTableColumn(vmID, ac, index)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumn", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
+GetAccessibleTableIndex(vmID, ac, row, column)
+{
+	global JABVariables
+	if (JABVariables["JABInitialised"])
+	{
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableIndex", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Int", column, "Cdecl Int")  
+	}
+	Return, cnt
+}
+
 
 
 ; callback set routines
@@ -1959,22 +2258,6 @@ functions that have not been ported yet
 
 { exported user functions of the Java Access Bridge }
 
-{ AccessibleTable }
-function getAccessibleTableInfo(vmID: longint; ac: AccessibleContext; tableinfo: PAccessibleTableInfo):JBool;
-function getAccessibleTableCellInfo(vmID: longint; at: AccessibleTable; row: jint; column: jint; tableCellInfo: PAccessibleTableCellInfo):JBool;
-function getAccessibleTableRowHeader(vmID: longint; acParent: AccessibleContext; tableInfo: PAccessibleTableInfo):JBool;
-function getAccessibleTableColumnHeader(vmID: longint; acParent: AccessibleContext; tableinfo: PAccessibleTableInfo):JBool;
-function getAccessibleTableRowDescription(vmID: longint; acParent: AccessibleContext; row: jint):AccessibleContext;
-function getAccessibleTableColumnDescription(vmID: longint; acParent: AccessibleContext; column: jint):AccessibleContext;
-function getAccessibleTableRowSelectionCount(vmID: longint; table: AccessibleTable):jint;
-function isAccessibleTableRowSelected(vmID: longint; table: AccessibleTable; row: jint):Jbool;
-function getAccessibleTableRowSelections(vmID: longint; table: AccessibleTable; count: jint; selections: pjint):JBool;
-function getAccessibleTableColumnSelectionCount(vmID: longint; table: AccessibleTable):Jint;
-function isAccessibleTableColumnSelected(vmID: longint; table: AccessibleTable; column: jint):JBool;
-function getAccessibleTableColumnSelections(vmID: longint; table: AccessibleTable; count: jint; selections: pjint):JBool;
-function getAccessibleTableRow(vmID: longint; table: AccessibleTable; index: jint):jint;
-function getAccessibleTableColumn(vmID: longint; table: AccessibleTable; index: jint):jint;
-function getAccessibleTableIndex(vmID: longint; table: AccessibleTable; row: jint; column: jint):jint;
 
 { AccessibleRelationSet }
 function getAccessibleRelationSet(vmID: longint; ac: AccessibleContext; relationSetInfo: PAccessibleRelationSetInfo):JBool;
@@ -2024,22 +2307,6 @@ getAccessibleHyperlinkCount
 getAccessibleHypertext
 getAccessibleHypertextExt
 getAccessibleHypertextLinkIndex
-
-getAccessibleTableCellInfo
-getAccessibleTableColumn
-getAccessibleTableColumnDescription
-getAccessibleTableColumnHeader
-getAccessibleTableColumnSelectionCount
-getAccessibleTableColumnSelections
-getAccessibleTableIndex
-getAccessibleTableInfo
-getAccessibleTableRow
-getAccessibleTableRowDescription
-getAccessibleTableRowHeader
-getAccessibleTableRowSelectionCount
-getAccessibleTableRowSelections
-isAccessibleTableColumnSelected
-isAccessibleTableRowSelected
 
 addAccessibleSelectionFromContext
 clearAccessibleSelectionFromContext
