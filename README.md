@@ -1,8 +1,6 @@
 # Java Access Bridge wrapper for AutoHotkey and JControlWriter
 
-The [Java Access Bridge](http://www.oracle.com/technetwork/articles/javase/index-jsp-136191.html) for Windows is an API provided by Oracle to use the accessibility features of Java-Swing GUIs.
-
-This repository contains wrappers for this API to use the Java Access Bridge from AutoHotkey.
+The [Java Access Bridge](http://www.oracle.com/technetwork/articles/javase/index-jsp-136191.html) for Windows is an API provided by Oracle to use the accessibility features of Java-Swing GUIs. This repository contains wrappers for this API to use the Java Access Bridge from AutoHotkey.
 
 The files in this repository are:
 - [JavaAccessBridge.ahk](JavaAccessBridge.ahk): A function based wrapper for the Java Access Bridge
@@ -10,7 +8,6 @@ The files in this repository are:
 - [JControlWriter.ahk](JControlWriter.ahk): A browser for accessible controls in Java applications
 - [JAB Swingset3 Demo.ahk](JAB%20Swingset3%20Demo.ahk): A demo how to use the JAB with SwingSet3.jar (various download locations)
 - [JCWGUIStrings.ini](JCWGUIStrings.ini): The GUI-strings for JControlWriter
-
 
 ## How to use
 
@@ -22,7 +19,6 @@ Before you can access Java applications through the Java access bridge you need 
 To get an overview of which accessible information is published by your Java application you can use [JControlWriter.ahk](JControlWriter.ahk).
 
 With your Java application as the active window, press either Ctrl-Alt-F10 or Ctrl-Alt-F11 to show a list of the accessible controls.
-
 
 ## Known issues
 
