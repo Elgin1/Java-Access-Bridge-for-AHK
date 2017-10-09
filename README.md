@@ -1,4 +1,4 @@
-# Java Access Bridge wrapper for AutoHotkey and JControlWriter
+# Java Access Bridge Wrapper for AutoHotkey
 
 The [Java Access Bridge](http://www.oracle.com/technetwork/articles/javase/index-jsp-136191.html) for Windows is an API provided by Oracle to use the accessibility features of Java-Swing GUIs. This repository contains wrappers for this API to use the Java Access Bridge from AutoHotkey.
 
