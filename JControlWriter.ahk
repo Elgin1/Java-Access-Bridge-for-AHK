@@ -34,7 +34,6 @@ sleep, 1000
 msgbox, done
 return
 
-
 CleanUp:
 ExitJavaAccessBridge()
 ExitApp

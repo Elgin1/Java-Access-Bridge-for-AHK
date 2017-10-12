@@ -204,7 +204,6 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 				txt.="GetAccessibleTextLineBounds`n"
 				txt.="StartPos: " res.StartPos " EndPos: " res.EndPos "`n"
 
-
 		;~ ; retrieves the text attributes as an object with the keys:
 		;~ ; bold, italic, underline, strikethrough, superscript, subscript,
 		;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
@@ -733,7 +732,6 @@ class JavaAccessibleContext
 		BlockInput Off
 		return, 0
 	}
-
 
 	; actionsToDo : object (1,"Action") of actions
 	DoAccessibleActions(actionsToDo)
@@ -1264,7 +1262,6 @@ class JavaAccessibleContext
 	}
 }
 
-
 GetJavaString(byref Struct, byref BaseOffset, Length)
 {
 	resstr:=""
@@ -1335,15 +1332,11 @@ procedure RemoveAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleS
 procedure SelectAllAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleSelection);
 
 { Utility methods }
-
-
 function getVirtualAccessibleName(vmID: longint; ac: AccessibleContext; name: pwidechar; len: integer):JBool;
 function getTextAttributesInRange(vmID: longint; ac: AccessibleContext; startIndex: integer; endIndex: integer; attributes: PAccessibleTextAttributesInfo; len: Jshort): JBool;
 function getEventsWaiting():Jint;
 
-
-All unported functions in Windowsaccessbridge32.dll
-
+{ All unported functions in Windowsaccessbridge32.dll }
 activateAccessibleHyperlink
 getAccessibleHyperlink
 getAccessibleHyperlinkCount
@@ -1380,6 +1373,4 @@ getAccessibleKeyBindings
 getAccessibleRelationSet
 getEventsWaiting
 getVirtualAccessibleName
-
-
 */

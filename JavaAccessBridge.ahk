@@ -49,7 +49,6 @@ GetTextInfo()
 				txt.="GetAccessibleTextLineBounds`n"
 				txt.="StartPos: " res["StartPos"] " EndPos: " res["EndPos"] "`n"
 
-
 	;~ ; retrieves the text attributes as an object with the keys:
 	;~ ; bold, italic, underline, strikethrough, superscript, subscript,
 	;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
@@ -73,8 +72,6 @@ GetTextInfo()
 	else txt:="Java Access Bridge not initialized."
 	return, txt
 }
-
-
 
 ; The function JavaControlDoAction searches for the <occurrence>-instance of a Java-control that fits in <name>, <role> and <description> and performs <action> <count>-times
 ; actions can be all actions provided by the control itself or:
@@ -326,7 +323,6 @@ GetControlTree(vmID, ac, Invisible=0)
 	return, RetObj
 }
 
-
 ; used to retrieve an object with all children that are likely to be controlled
 GetControllableChildrenFromTree(vmID, ac)
 {
@@ -360,7 +356,6 @@ RecurseControllableChildren(vmID, ac, byref Children)
 		}
 	}
 }
-
 
 ; used to retrieve an object with all children of the input control
 GetAllChildrenFromTree(vmID, ac)
@@ -415,7 +410,6 @@ MouseClickJControl(byref Info, action="left", count=1)
 	else
 		return, -1
 }
-
 
 ; Java Access Bridge functions; see Access Bridge documentation for details
 
@@ -712,7 +706,6 @@ FindContextAt(vmID, ac, x, y)
 		return, 0
 }
 
-
 GetAccessibleContextAt(vmID, acParent, x, y, ByRef ac)
 {
 	global JABVariables
@@ -754,7 +747,6 @@ GetActiveDescendent(vmID, ac)
 		Return 0
 	}
 }
-
 
 GetObjectDepth(vmID, ac)
 {
@@ -821,7 +813,6 @@ GetParentWithRoleElseRoot(vmID, ac, byref role)
 	}
 	Return, acparent
 }
-
 
 ; retrieves information about a certain element as an object with the keys:
 ; Name, Description, Role_local, Role, States_local, States, Index in parent,
@@ -1177,7 +1168,6 @@ SelectTextRange32(vmID, ac, startIndex, endIndex)
 	Return, 0
 }
 
-
 SetCaretPosition64(vmID, ac, position)
 {
 	global JABVariables
@@ -1216,7 +1206,6 @@ SelectTextRange64(vmID, ac, startIndex, endIndex)
 	}
 	Return, 0
 }
-
 
 SetCaretPosition32(vmID, ac, position)
 {
@@ -1687,8 +1676,6 @@ GetTextAttributesInRange(vmID, ac, startc=0, endc=0)
 	Return TempInfo
 }
 
-
-
 ; callback set routines
 ; see access bridge documentation for definitions of callback funtions
 ;
@@ -1708,7 +1695,6 @@ GetTextAttributesInRange(vmID, ac, startc=0, endc=0)
 ;   ReleaseJavaObject(vmID,event)
 ;   ReleaseJavaObject(vmID,source)
 ; }
-
 
 setFocusGainedFP(fp)
 {
@@ -1953,7 +1939,6 @@ setPropertyTableModelChangeFP(fp)
 	}
 }
 
-
 /*
 functions that have not been ported yet
 
@@ -2009,15 +1994,11 @@ procedure RemoveAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleS
 procedure SelectAllAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleSelection);
 
 { Utility methods }
-
-
 function getVirtualAccessibleName(vmID: longint; ac: AccessibleContext; name: pwidechar; len: integer):JBool;
 function getTextAttributesInRange(vmID: longint; ac: AccessibleContext; startIndex: integer; endIndex: integer; attributes: PAccessibleTextAttributesInfo; len: Jshort): JBool;
 function getEventsWaiting():Jint;
 
-
-All unported functions in Windowsaccessbridge32.dll
-
+{ All unported functions in Windowsaccessbridge32.dll }
 activateAccessibleHyperlink
 getAccessibleHyperlink
 getAccessibleHyperlinkCount
@@ -2054,6 +2035,4 @@ getAccessibleKeyBindings
 getAccessibleRelationSet
 getEventsWaiting
 getVirtualAccessibleName
-
-
 */
