@@ -5,7 +5,6 @@
 
 class JavaAccessBridge extends JavaAccessBridgeBase
 {
-
 	; The function JavaControlDoAction searches for the <occurrence>-instance of a Java-control that fits in <name>, <role> and <description> and performs <action> <count>-times
 	; actions can be all actions provided by the control itself or:
 	; - focus: attempts to focus the control and left clicks it if focusing fails
