@@ -1,6 +1,7 @@
+global JABVariables
+
 GetTextInfo()
 {
-	global JABVariables
 	txt:=""
 	if (!JABVariables["JABInitialised"])
 		InitJavaAccessBridge()
@@ -81,7 +82,6 @@ GetTextInfo()
 
 JavaControlDoAction(hwnd:=0, name:="", role:="", description:="", occurrence:="", action:="", times:=1, parentcontext:=0)
 {
-	global JABVariables
 	rval:=JavaControlGet(hwnd, name, role, description, occurrence, parentcontext)
 	If (IsObject(rval))
 	{
@@ -146,7 +146,6 @@ JavaControlDoAction(hwnd:=0, name:="", role:="", description:="", occurrence:=""
 
 JavaControlGet(hwnd:=0, name:="", role:="", description:="", occurrence:="", parentcontext:=0)
 {
-	global JABVariables
 	if (!JABVariables["JABInitialised"])
 		InitJavaAccessBridge()
 	if (JABVariables["JABInitialised"])
@@ -229,7 +228,6 @@ JavaControlGet(hwnd:=0, name:="", role:="", description:="", occurrence:="", par
 
 FindVisibleChild(vmID, ac, name:="", role:="", description:="")
 {
-	global JABVariables
 	retval:=""
 	Info:=getAccessibleContextInfo(vmID,ac)
 	If (Instr(Info["States"],"visible"))
@@ -278,7 +276,6 @@ SplitContext(context, byref vmid, byref ac)
 ; used to retrieve an object with all visible children of the input control
 GetVisibleChildrenFromTree(vmID, ac)
 {
-	global JABVariables
 	Children:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -289,7 +286,6 @@ GetVisibleChildrenFromTree(vmID, ac)
 
 RecurseVisibleChildren(vmID, ac, byref Children)
 {
-	global JABVariables
 	Info:=getAccessibleContextInfo(vmID,ac)
 	If (Instr(Info["States"],"visible"))
 	{
@@ -307,7 +303,6 @@ RecurseVisibleChildren(vmID, ac, byref Children)
 
 GetControlTree(vmID, ac, Invisible:=0)
 {
-	global JABVariables
 	RetObj:=Object()
 	Info:=getAccessibleContextInfo(vmID,ac)
 	If (Instr(Info["States"],"visible") or invisible)
@@ -326,7 +321,6 @@ GetControlTree(vmID, ac, Invisible:=0)
 ; used to retrieve an object with all children that are likely to be controlled
 GetControllableChildrenFromTree(vmID, ac)
 {
-	global JABVariables
 	Children:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -337,7 +331,6 @@ GetControllableChildrenFromTree(vmID, ac)
 
 RecurseControllableChildren(vmID, ac, byref Children)
 {
-	global JABVariables
 	Info:=getAccessibleContextInfo(vmID,ac)
 	If (Instr(Info["States"],"visible"))
 	{
@@ -360,7 +353,6 @@ RecurseControllableChildren(vmID, ac, byref Children)
 ; used to retrieve an object with all children of the input control
 GetAllChildrenFromTree(vmID, ac)
 {
-	global JABVariables
 	Children:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -371,7 +363,6 @@ GetAllChildrenFromTree(vmID, ac)
 
 RecurseAllChildren(vmID, ac, byref Children)
 {
-	global JABVariables
 	Info:=getAccessibleContextInfo(vmID,ac)
 	If (Children.MaxIndex()="")
 		Children[1]:=ac
@@ -416,7 +407,6 @@ MouseClickJControl(byref Info, action:="left", count:=1)
 ; Initialises the bridge access
 InitJavaAccessBridge(ForceLegacy:=0)
 {
-	global JABVariables
 	JABVariables:= Object()
 	JABVariables["JABInitialised"]:=False
 	JABVariables["JAB_DLLVersion"] :=""
@@ -536,7 +526,6 @@ InitJavaAccessBridge(ForceLegacy:=0)
 ; shuts down the access bridge
 ExitJavaAccessBridge()
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall("FreeLibrary", "Ptr", JABVariables["JAB_DLL"])
@@ -545,7 +534,6 @@ ExitJavaAccessBridge()
 
 IsJavaWindow(hwnd)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\isJavaWindow", "Int", hWnd, "Cdecl Int")
@@ -559,7 +547,6 @@ IsJavaWindow(hwnd)
 ; returns JAB version information as object containing the keys: VMversion, bridgeJavaClassVersion, bridgeJavaDLLVersion, bridgeWinDLLVersion
 GetVersionInfo(vmID)
 {
-	global JABVariables
 	Info:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -621,7 +608,6 @@ GetVersionInfo(vmID)
 
 ReleaseJavaObject(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\ReleaseJavaObject", "Int", vmID, JABVariables["acType"], ac, "Cdecl")
@@ -630,7 +616,6 @@ ReleaseJavaObject(vmID, ac)
 
 IsSameObject(vmID, ac1, ac2)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\isSameObject", "Int", vmID, JABVariables["acType"], ac1, JABVariables["acType"], ac2, "Cdecl Int")
@@ -644,7 +629,6 @@ IsSameObject(vmID, ac1, ac2)
 ; retrieves the root element from a window
 GetAccessibleContextFromHWND(hwnd, ByRef vmID, ByRef ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleContextFromHWND", "Int", hWnd, "Int*", vmID, JABVariables["acPType"], ac, "Cdecl Int")
@@ -657,7 +641,6 @@ GetAccessibleContextFromHWND(hwnd, ByRef vmID, ByRef ac)
 
 GetHWNDFromAccessibleContext(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\getHWNDFromAccessibleContext", "Int", vmID, JABVariables["acType"], ac, "Cdecl UInt")
@@ -670,7 +653,6 @@ GetHWNDFromAccessibleContext(vmID, ac)
 
 GetAccessibleContextAtHWND(hwnd, x, y)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		GetAccessibleContextFromHWND(hwnd, vmID, Winac)
@@ -684,7 +666,6 @@ GetAccessibleContextAtHWND(hwnd, x, y)
 
 FindContextAt(vmID, ac, x, y)
 {
-	global JABVariables
 	Info:=getAccessibleContextInfo(vmID,ac)
 	If (Instr(Info["States"],"visible"))
 	{
@@ -708,7 +689,6 @@ FindContextAt(vmID, ac, x, y)
 
 GetAccessibleContextAt(vmID, acParent, x, y, ByRef ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleContextAt", "Int", vmID, JABVariables["acType"], acParent, "Int", x, "Int", y, JABVariables["acPType"], ac, "Cdecl Int")
@@ -722,7 +702,6 @@ GetAccessibleContextAt(vmID, acParent, x, y, ByRef ac)
 
 GetAccessibleContextWithFocus(hwnd, ByRef vmID, ByRef ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		vmid:=0
@@ -737,7 +716,6 @@ GetAccessibleContextWithFocus(hwnd, ByRef vmID, ByRef ac)
 
 GetActiveDescendent(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\getActiveDescendent", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
@@ -750,7 +728,6 @@ GetActiveDescendent(vmID, ac)
 
 GetObjectDepth(vmID, ac)
 {
-	global JABVariables
 	depth:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -761,7 +738,6 @@ GetObjectDepth(vmID, ac)
 
 GetAccessibleParentFromContext(vmID, ac)
 {
-	global JABVariables
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -772,7 +748,6 @@ GetAccessibleParentFromContext(vmID, ac)
 
 GetTopLevelObject(vmID, ac)
 {
-	global JABVariables
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -783,7 +758,6 @@ GetTopLevelObject(vmID, ac)
 
 GetAccessibleChildFromContext(vmID, ac, index)
 {
-	global JABVariables
 	acchild:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -794,7 +768,6 @@ GetAccessibleChildFromContext(vmID, ac, index)
 
 GetParentWithRole(vmID, ac, byref role)
 {
-	global JABVariables
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -805,7 +778,6 @@ GetParentWithRole(vmID, ac, byref role)
 
 GetParentWithRoleElseRoot(vmID, ac, byref role)
 {
-	global JABVariables
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -823,7 +795,6 @@ GetParentWithRoleElseRoot(vmID, ac, byref role)
 ; Accessible text interface, Accessible hypertext interface
 GetAccessibleContextInfo(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -952,7 +923,6 @@ GetAccessibleContextInfo(vmID, ac)
 
 GetVisibleChildrenCount(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\getVisibleChildrenCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
@@ -967,7 +937,6 @@ GetVisibleChildrenCount(vmID, ac)
 ; works fine under WinXP
 GetVisibleChildren(vmID, ac)
 {
-	global JABVariables
 	Children:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -995,7 +964,6 @@ GetVisibleChildren(vmID, ac)
 
 GetAccessibleActions(vmID, ac)
 {
-	global JABVariables
 	Actret:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1027,7 +995,6 @@ GetAccessibleActions(vmID, ac)
 DoAccessibleActions(vmID, ac, ByRef actionsToDo)
 ; actionsToDo : comma separated list of actions
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		VarSetCapacity(Actions, 256*256*2+A_PtrSize,0)
@@ -1049,7 +1016,6 @@ DoAccessibleActions(vmID, ac, ByRef actionsToDo)
 
 RequestFocus(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		return DllCall(JABVariables["JAB_DLLVersion"] "\requestFocus", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
@@ -1060,7 +1026,6 @@ RequestFocus(vmID, ac)
 ; CharCount, CaretIndex, IndexAtPoint
 GetAccessibleTextInfo(vmID, ac, x:=0, y:=0)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1085,7 +1050,6 @@ GetAccessibleTextInfo(vmID, ac, x:=0, y:=0)
 
 Is64bit(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		If (A_Is64bitOS)
@@ -1119,7 +1083,6 @@ Is64bit(vmID, ac)
 ; SelectionStartIndex, SelectionEndIndex, SelectedText
 GetAccessibleTextSelectionInfo(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1150,7 +1113,6 @@ GetAccessibleTextSelectionInfo(vmID, ac)
 
 SelectTextRange32(vmID, ac, startIndex, endIndex)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
   	; find out if the JVM is running at 32 or 64 bit to circumvent a bug with the adress length in 32 bit JVMs (JRE 6+7)
@@ -1170,7 +1132,6 @@ SelectTextRange32(vmID, ac, startIndex, endIndex)
 
 SetCaretPosition64(vmID, ac, position)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
   	; find out if the JVM is running at 32 or 64 bit to circumvent a bug with the adress length in 32 bit JVMs (JRE 6+7)
@@ -1189,7 +1150,6 @@ SetCaretPosition64(vmID, ac, position)
 
 SelectTextRange64(vmID, ac, startIndex, endIndex)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
   	; find out if the JVM is running at 32 or 64 bit to circumvent a bug with the adress length in 32 bit JVMs (JRE 6+7)
@@ -1209,7 +1169,6 @@ SelectTextRange64(vmID, ac, startIndex, endIndex)
 
 SetCaretPosition32(vmID, ac, position)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
   	; find out if the JVM is running at 32 or 64 bit to circumvent a bug with the adress length in 32 bit JVMs (JRE 6+7)
@@ -1230,7 +1189,6 @@ SetCaretPosition32(vmID, ac, position)
 ; Index, X, Y, Width, Height
 GetCaretLocation(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1261,7 +1219,6 @@ GetCaretLocation(vmID, ac)
 ; X, Y, Width, Height
 GetAccessibleTextRect(vmID, ac, Index)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1290,7 +1247,6 @@ GetAccessibleTextRect(vmID, ac, Index)
 ; StartPos, EndPos
 GetAccessibleTextLineBounds(vmID, ac, Index)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1313,7 +1269,6 @@ GetAccessibleTextLineBounds(vmID, ac, Index)
 ; retrieves text between start and end index
 GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 {
-	global JABVariables
 	TempStr:=""
 	if (JABVariables["JABInitialised"])
 	{
@@ -1382,7 +1337,6 @@ GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 
 SetTextContents(vmID, ac, ntext)	; may not work properly before JRE7 Update 67
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		len := StrLen(ntext)
@@ -1403,7 +1357,6 @@ SetTextContents(vmID, ac, ntext)	; may not work properly before JRE7 Update 67
 ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
 GetAccessibleTextAttributes(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1516,7 +1469,6 @@ GetAccessibleTextAttributes(vmID, ac)
 ; letter, word, sentence
 GetAccessibleTextItems(vmID, ac, Index)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1566,7 +1518,6 @@ GetAccessibleTextItems(vmID, ac, Index)
 ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
 GetTextAttributesInRange(vmID, ac, startc:=0, endc:=0)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1683,7 +1634,6 @@ GetTextAttributesInRange(vmID, ac, startc:=0, endc:=0)
 ; columnCount, accessibleContext, accessibleTable
 GetAccessibleTableInfo(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1722,7 +1672,6 @@ GetAccessibleTableInfo(vmID, ac)
 ; accessibleContext, index, row, column, rowExtent, columnExtent, isSelected
 GetAccessibleTableCellInfo(vmID, ac, row, column)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1762,7 +1711,6 @@ GetAccessibleTableCellInfo(vmID, ac, row, column)
 ; columnCount, accessibleContext, accessibleTable
 GetAccessibleTableRowHeader(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1802,7 +1750,6 @@ GetAccessibleTableRowHeader(vmID, ac)
 ; columnCount, accessibleContext, accessibleTable
 GetAccessibleTableColumnHeader(vmID, ac)
 {
-	global JABVariables
 	TempInfo:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1839,7 +1786,6 @@ GetAccessibleTableColumnHeader(vmID, ac)
 
 GetAccessibleTableRowDescription(vmID, ac, row)
 {
-	global JABVariables
 	acchild:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -1850,7 +1796,6 @@ GetAccessibleTableRowDescription(vmID, ac, row)
 
 GetAccessibleTableColumnDescription(vmID, ac, column)
 {
-	global JABVariables
 	acchild:=0
 	if (JABVariables["JABInitialised"])
 	{
@@ -1861,7 +1806,6 @@ GetAccessibleTableColumnDescription(vmID, ac, column)
 
 GetAccessibleTableRowSelectionCount(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
@@ -1871,7 +1815,6 @@ GetAccessibleTableRowSelectionCount(vmID, ac)
 
 IsAccessibleTableRowSelected(vmID, ac, row)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableRowSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")
@@ -1881,7 +1824,6 @@ IsAccessibleTableRowSelected(vmID, ac, row)
 
 GetAccessibleTableRowSelections(vmID, ac)
 {
-	global JABVariables
 	Children:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1905,7 +1847,6 @@ GetAccessibleTableRowSelections(vmID, ac)
 
 GetAccessibleTableColumnSelectionCount(vmID, ac)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
@@ -1915,7 +1856,6 @@ GetAccessibleTableColumnSelectionCount(vmID, ac)
 
 IsAccessibleTableColumnSelected(vmID, ac, row)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableColumnSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")
@@ -1925,7 +1865,6 @@ IsAccessibleTableColumnSelected(vmID, ac, row)
 
 GetAccessibleTableColumnSelections(vmID, ac)
 {
-	global JABVariables
 	Children:=Object()
 	if (JABVariables["JABInitialised"])
 	{
@@ -1948,7 +1887,6 @@ GetAccessibleTableColumnSelections(vmID, ac)
 
 GetAccessibleTableRow(vmID, ac, index)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRow", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")
@@ -1958,7 +1896,6 @@ GetAccessibleTableRow(vmID, ac, index)
 
 GetAccessibleTableColumn(vmID, ac, index)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumn", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")
@@ -1968,7 +1905,6 @@ GetAccessibleTableColumn(vmID, ac, index)
 
 GetAccessibleTableIndex(vmID, ac, row, column)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableIndex", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Int", column, "Cdecl Int")
@@ -1998,7 +1934,6 @@ GetAccessibleTableIndex(vmID, ac, row, column)
 
 setFocusGainedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setFocusGainedFP", "UInt", fp, "Cdecl")
@@ -2007,7 +1942,6 @@ setFocusGainedFP(fp)
 
 setFocusLostFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setFocusLostFP", "UInt", fp, "Cdecl")
@@ -2016,7 +1950,6 @@ setFocusLostFP(fp)
 
 setJavaShutdownFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setJavaShutdownFP", "UInt", fp, "Cdecl")
@@ -2025,7 +1958,6 @@ setJavaShutdownFP(fp)
 
 setCaretUpdateFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setCaretUpdateFP", "UInt", fp, "Cdecl")
@@ -2034,7 +1966,6 @@ setCaretUpdateFP(fp)
 
 setMouseClickedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMouseClickedFP", "UInt", fp, "Cdecl")
@@ -2043,7 +1974,6 @@ setMouseClickedFP(fp)
 
 setMouseEnteredFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMouseEnteredFP", "UInt", fp, "Cdecl")
@@ -2052,7 +1982,6 @@ setMouseEnteredFP(fp)
 
 setMouseExitedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMouseExitedFP", "UInt", fp, "Cdecl")
@@ -2061,7 +1990,6 @@ setMouseExitedFP(fp)
 
 setMousePressedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMousePressedFP", "UInt", fp, "Cdecl")
@@ -2070,7 +1998,6 @@ setMousePressedFP(fp)
 
 setMouseReleasedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMouseReleasedFP", "UInt", fp, "Cdecl")
@@ -2079,7 +2006,6 @@ setMouseReleasedFP(fp)
 
 setMenuCanceledFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMenuCanceledFP", "UInt", fp, "Cdecl")
@@ -2088,7 +2014,6 @@ setMenuCanceledFP(fp)
 
 setMenuDeselectedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMenuDeselectedFP", "UInt", fp, "Cdecl")
@@ -2097,7 +2022,6 @@ setMenuDeselectedFP(fp)
 
 setMenuSelectedFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setMenuSelectedFP", "UInt", fp, "Cdecl")
@@ -2106,7 +2030,6 @@ setMenuSelectedFP(fp)
 
 setPopupMenuCanceledFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPopupMenuCanceledFP", "UInt", fp, "Cdecl")
@@ -2115,7 +2038,6 @@ setPopupMenuCanceledFP(fp)
 
 setPopupMenuWillBecomeInvisibleFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPopupMenuWillBecomeInvisibleFP", "UInt", fp, "Cdecl")
@@ -2124,7 +2046,6 @@ setPopupMenuWillBecomeInvisibleFP(fp)
 
 setPopupMenuWillBecomeVisibleFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPopupMenuWillBecomeVisibleFP", "UInt", fp, "Cdecl")
@@ -2133,7 +2054,6 @@ setPopupMenuWillBecomeVisibleFP(fp)
 
 setPropertyNameChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyNameChangeFP", "UInt", fp, "Cdecl")
@@ -2142,7 +2062,6 @@ setPropertyNameChangeFP(fp)
 
 setPropertyDescriptionChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyDescriptionChangeFP", "UInt", fp, "Cdecl")
@@ -2151,7 +2070,6 @@ setPropertyDescriptionChangeFP(fp)
 
 setPropertyStateChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyStateChangeFP", "UInt", fp, "Cdecl")
@@ -2160,7 +2078,6 @@ setPropertyStateChangeFP(fp)
 
 setPropertyValueChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyValueChangeFP", "UInt", fp, "Cdecl")
@@ -2169,7 +2086,6 @@ setPropertyValueChangeFP(fp)
 
 setPropertySelectionChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertySelectionChangeFP", "UInt", fp, "Cdecl")
@@ -2178,7 +2094,6 @@ setPropertySelectionChangeFP(fp)
 
 setPropertyTextChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyTextChangeFP", "UInt", fp, "Cdecl")
@@ -2187,7 +2102,6 @@ setPropertyTextChangeFP(fp)
 
 setPropertyCaretChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyCaretChangeFP", "UInt", fp, "Cdecl")
@@ -2196,7 +2110,6 @@ setPropertyCaretChangeFP(fp)
 
 setPropertyVisibleDataChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyVisibleDataChangeFP", "UInt", fp, "Cdecl")
@@ -2205,7 +2118,6 @@ setPropertyVisibleDataChangeFP(fp)
 
 setPropertyChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyChangeFP", "UInt", fp, "Cdecl")
@@ -2214,7 +2126,6 @@ setPropertyChangeFP(fp)
 
 setPropertyChildChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyChildChangeFP", "UInt", fp, "Cdecl")
@@ -2223,7 +2134,6 @@ setPropertyChildChangeFP(fp)
 
 setPropertyActiveDescendentChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyActiveDescendentChangeFP", "UInt", fp, "Cdecl")
@@ -2232,7 +2142,6 @@ setPropertyActiveDescendentChangeFP(fp)
 
 setPropertyTableModelChangeFP(fp)
 {
-	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
 		DllCall(JABVariables["JAB_DLLVersion"] "\setPropertyTableModelChangeFP", "UInt", fp, "Cdecl")
