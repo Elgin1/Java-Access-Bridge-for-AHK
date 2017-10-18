@@ -1897,6 +1897,8 @@ GetAccessibleTableRowSelections(vmID, ac)
 	if (JABVariables["JABInitialised"])
 	{
 		NumChild:=GetAccessibleTableRowSelectionCount(vmID, ac)
+		StartChild:=0
+		cnt:=0
 		VarSetCapacity(TempChildren, 64*JABVariables["acSize"],0)
 		if (DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowSelections", "Int", vmID, JABVariables["acType"], ac, "Int", NumChild, "Ptr", &TempChildren, "Cdecl Int"))
 		{
@@ -1908,7 +1910,6 @@ GetAccessibleTableRowSelections(vmID, ac)
 			}
 			StartChild:=StartChild+retchild
 		}
-		else break
 	}
 	Return Children
 }
