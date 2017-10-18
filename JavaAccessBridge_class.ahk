@@ -5,7 +5,6 @@
 
 class JavaAccessBridge extends JavaAccessBridgeBase
 {
-	
 	; The function JavaControlDoAction searches for the <occurrence>-instance of a Java-control that fits in <name>, <role> and <description> and performs <action> <count>-times
 	; actions can be all actions provided by the control itself or:
 	; - focus: attempts to focus the control and left clicks it if focusing fails
@@ -24,7 +23,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 					If !(Info.X=-1 and Info.Width=-1 and Info.Y=-1 and Info.Height=-1)
 						return, 0
 					else
-						return, -3			
+						return, -3
 				}
 				if (Action="focus")
 				{
@@ -36,7 +35,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 							rval:=control.MouseClick()
 						}
 					}
-					else 
+					else
 						return, -2
 				}
 				else if Action in % this.MouseClickActions
@@ -67,7 +66,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 		{
 			if (!HWND)
 				currwin:=this.GetJavaHWNDWithFocus()
-			else 
+			else
 				currwin:=HWND
 			if (this.IsJavaWindow(currwin))
 			{
@@ -99,7 +98,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 							and (Description="" or RegExMatch(Info.Description, Description)))
 						{
 							occurcnt++
-							if (Occurrence=occurcnt or Occurrence=0 or Occurrence="")  
+							if (Occurrence=occurcnt or Occurrence=0 or Occurrence="")
 							{
 								return child
 							}
@@ -124,7 +123,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 		root:=this.GetAccessibleContextFromHWND(hwnd)
 		return, this.FindContextAt(root, x, y)
 	}
-	
+
 	; recursion for GetAccessibleContextAt
 	; do not use separately
 	FindContextAt(root, x, y)
@@ -165,7 +164,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 		else
 			return, hwnd
 	}
-	
+
 	GetTextInfo()
 	{
 		txt:=""
@@ -203,28 +202,27 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 				res:=control.GetAccessibleTextLineBounds(caretindex)
 				txt.="GetAccessibleTextLineBounds`n"
 				txt.="StartPos: " res.StartPos " EndPos: " res.EndPos "`n"
-				
-				
-		;~ ; retrieves the text attributes as an object with the keys: 
+
+		;~ ; retrieves the text attributes as an object with the keys:
 		;~ ; bold, italic, underline, strikethrough, superscript, subscript,
 		;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
 		;~ ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 		;~ ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
 		;~ GetAccessibleTextAttributes(vmID, ac)
 					;~ txt.=" : "  " : "  " : "  "`n"
-		;~ ; retrieves the text attributes as an object with the keys: 
+		;~ ; retrieves the text attributes as an object with the keys:
 		;~ ; bold, italic, underline, strikethrough, superscript, subscript,
 		;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
 		;~ ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 		;~ ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
 		;~ GetTextAttributesInRange(vmID, ac, startc=0, endc=0)
 					;~ txt.=" : "  " : "  " : "  "`n"
-					
+
 			}
-			else 
+			else
 				txt:="Current accessible context does not have an accessible text interface."
 		}
-		else 
+		else
 			txt:="No valid accessible context with focus found."
 		return, txt
 	}
@@ -353,7 +351,7 @@ class JavaAccessBridgeBase
 		; otherwise all calls will fail
 		Sleep, 200 ; minimum 100 for all machines?
 	}
-	
+
 	__Delete()
 	{
 		if (this.Initialised)
@@ -387,7 +385,7 @@ class JavaAccessBridgeBase
 			return 0
 	}
 
-	; returns JAB version information as object containing the keys: 
+	; returns JAB version information as object containing the keys:
 	; VMversion, bridgeJavaClassVersion, bridgeJavaDLLVersion, bridgeWinDLLVersion
 	GetVersionInfo(vmID)
 	{
@@ -410,7 +408,7 @@ class JavaAccessBridgeBase
 	{
 		return DllCall(this.DLLVersion "\isJavaWindow", "Int", hWnd, "Cdecl Int")
 	}
-	
+
 	IsSameObject(JAObj1, JAObj2)
 	{
 		If (JAObj1.__Class="JavaAccessibleContext" and JAObj2.__Class="JavaAccessibleContext" and JAObj1.vmID=JAObj2.vmID)
@@ -420,12 +418,12 @@ class JavaAccessBridgeBase
 		else
 			return 0
 	}
-	
+
 	; callback set routines
 	; see access bridge documentation for definitions of callback funtions
 	;
 	; usage:
-	; 
+	;
 	; if InitJavaAccessBridge()
 	; {
 	;   Address := RegisterCallback("FocusGained","CDecl")
@@ -433,7 +431,7 @@ class JavaAccessBridgeBase
 	; }
 	; ...
 	; Return
-	; 
+	;
 	; FocusGained(vmID, event, source)
 	; {
 	;   DoSomething(vmID, source)
@@ -582,19 +580,19 @@ class JavaAccessibleContext
 	vmID:=0
 	ac:=0
 	JAB:=""
-	
+
 	__New(vmID, ac, JAB)
 	{
 		If (vmID and ac and IsObject(JAB))
 		{
 			this.vmID:=vmID
 			this.ac:=ac
-			this.JAB:=JAB		
+			this.JAB:=JAB
 		}
 		else
 			return, 0
 	}
-	
+
 	__Delete()
 	{
 		DllCall(this.JAB.DLLVersion "\ReleaseJavaObject", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl")
@@ -644,7 +642,7 @@ class JavaAccessibleContext
 			this.GetAccessibleChildFromContext(A_Index-1).RecurseAllChildren(Children)
 		}
 	}
-	
+
 	; used to retrieve an object with all visible children of the input control
 	GetVisibleChildrenFromTree()
 	{
@@ -668,7 +666,7 @@ class JavaAccessibleContext
 		}
 	}
 
-	; used to retrieve an object with all children that are likely to be controlled 
+	; used to retrieve an object with all children that are likely to be controlled
 	GetControllableChildrenFromTree()
 	{
 		Children:=Object()
@@ -731,10 +729,9 @@ class JavaAccessibleContext
 			MouseMove, %MouseX%, %MouseY%
 		}
 		BlockInput Off
-		return, 0 
+		return, 0
 	}
 
-	
 	; actionsToDo : object (1,"Action") of actions
 	DoAccessibleActions(actionsToDo)
 	{
@@ -766,7 +763,7 @@ class JavaAccessibleContext
 			{
 				Actret[A_Index]:=GetJavaString(Actions, Offset, this.JAB.SHORT_STRING_SIZE)
 			}
-			return Actret  
+			return Actret
 		}
 		else
 			return 0
@@ -775,13 +772,13 @@ class JavaAccessibleContext
 	; index is 0 based
 	GetAccessibleChildFromContext(index)
 	{
-		ac:=DllCall(this.JAB.DLLVersion "\getAccessibleChildFromContext", "Int", this.vmID, this.JAB.acType, ac, "Int", index, "Cdecl " this.JAB.acType)  
+		ac:=DllCall(this.JAB.DLLVersion "\getAccessibleChildFromContext", "Int", this.vmID, this.JAB.acType, ac, "Int", index, "Cdecl " this.JAB.acType)
 		If (ac)
 			return new JavaAccessibleContext(this.vmID,ac,this.JAB)
 		else
 			return 0
-	}	
-	
+	}
+
 	; retieves child context at coordinates x, y within the parent context
 	; Is not always reliable. Better use: JavaAccessBridge.GetAccessibleContextAt
 	GetAccessibleContextAt(x, y)
@@ -792,13 +789,13 @@ class JavaAccessibleContext
 		else
 			return 0
 	}
-	
-	; retrieves information about a certain element as an object with the keys: 
-	; Name, Description, Role_local, Role, States_local, States, IndexInParent, 
-	; ChildrenCount, X, Y, Width, Height, AccessibleComponent, AccessibleAction, 
-	; AccessibleSelection, AccessibleText, AccessibleValueInterface, 
-	; AccessibleActionInterface, AccessibleComponentInterface, 
-	; AccessibleSelectionInterface, AccessibleTableInterface, 
+
+	; retrieves information about a certain element as an object with the keys:
+	; Name, Description, Role_local, Role, States_local, States, IndexInParent,
+	; ChildrenCount, X, Y, Width, Height, AccessibleComponent, AccessibleAction,
+	; AccessibleSelection, AccessibleText, AccessibleValueInterface,
+	; AccessibleActionInterface, AccessibleComponentInterface,
+	; AccessibleSelectionInterface, AccessibleTableInterface,
 	; AccessibleTextInterface, AccessibleHypertextInterface
 	GetAccessibleContextInfo()
 	{
@@ -846,17 +843,17 @@ class JavaAccessibleContext
 		else
 			return 0
 	}
-	
+
 	GetAccessibleParentFromContext()
 	{
-		ac:=DllCall(this.JAB.DLLVersion "\getAccessibleParentFromContext", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl "this.JAB.acType)  
+		ac:=DllCall(this.JAB.DLLVersion "\getAccessibleParentFromContext", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl "this.JAB.acType)
 		If (ac)
 			return new JavaAccessibleContext(this.vmID,ac,this.JAB)
 		else
 			return 0
 	}
-	
-	; retrieves the text items as an object with the keys: 
+
+	; retrieves the text items as an object with the keys:
 	; letter, word, sentence
 	GetAccessibleTextItems(Index)
 	{
@@ -873,8 +870,8 @@ class JavaAccessibleContext
 		else
 			return 0
 	}
-	
-	; retrieves the text attributes as an object with the keys: 
+
+	; retrieves the text attributes as an object with the keys:
 	; bold, italic, underline, strikethrough, superscript, subscript,
 	; backgroundColor, foregroundColor, fontFamily, fontSize,
 	; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
@@ -926,7 +923,7 @@ class JavaAccessibleContext
 			return 0
 	}
 
-	; retrieves information about a certain text element as an object with the keys: 
+	; retrieves information about a certain text element as an object with the keys:
 	; CharCount, CaretIndex, IndexAtPoint
 	GetAccessibleTextInfo(x:=0, y:=0)
 	{
@@ -943,7 +940,7 @@ class JavaAccessibleContext
 			return 0
 	}
 
-	; retrieves the start and end index of the line containing Index as an object with the keys: 
+	; retrieves the start and end index of the line containing Index as an object with the keys:
 	; StartPos, EndPos
 	GetAccessibleTextLineBounds(Index)
 	{
@@ -983,7 +980,7 @@ class JavaAccessibleContext
 				{
 					if (cnt+maxlen>endc)
 						cnt2:=endc-1
-					else 
+					else
 						cnt2:=cnt+maxlen
 					len:=maxlen+1
 					VarSetCapacity(Txt, len*2,0)
@@ -999,7 +996,7 @@ class JavaAccessibleContext
 						TempStr.=GetJavaString(Txt, Offset, maxlen+1)
 						if (cnt>=cnt2)
 							cnt++
-						else 
+						else
 							cnt:=cnt2+1
 						if (cnt>=endc-1)
 							break
@@ -1007,10 +1004,10 @@ class JavaAccessibleContext
 				}
 			}
 		}
-		Return TempStr	
+		Return TempStr
 	}
 
-	; retrieves the location of position Index as an object with the keys: 
+	; retrieves the location of position Index as an object with the keys:
 	; X, Y, Width, Height
 	GetAccessibleTextRect(Index)
 	{
@@ -1028,7 +1025,7 @@ class JavaAccessibleContext
 			return 0
 	}
 
-	; retrieves the currently selected text and its start and end index as an object with the keys: 
+	; retrieves the currently selected text and its start and end index as an object with the keys:
 	; SelectionStartIndex, SelectionEndIndex, SelectedText
 	GetAccessibleTextSelectionInfo()
 	{
@@ -1046,7 +1043,7 @@ class JavaAccessibleContext
 			return 0
 	}
 
-	; retrieves the text attributes as an object with the keys: 
+	; retrieves the text attributes as an object with the keys:
 	; bold, italic, underline, strikethrough, superscript, subscript,
 	; backgroundColor, foregroundColor, fontFamily, fontSize,
 	; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
@@ -1098,7 +1095,7 @@ class JavaAccessibleContext
 		else
 			return 0
 	}
-	
+
 	GetActiveDescendent()
 	{
 		ac:=0
@@ -1107,8 +1104,8 @@ class JavaAccessibleContext
 		else
 			return 0
 	}
-	
-	; retrieves the caret location as an object with the keys: 
+
+	; retrieves the caret location as an object with the keys:
 	; Index, X, Y, Width, Height
 	GetCaretLocation(Index:=0)
 	{
@@ -1132,15 +1129,15 @@ class JavaAccessibleContext
 	{
 		return DllCall(this.JAB.DLLVersion "\getHWNDFromAccessibleContext", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl UInt")
 	}
-	
+
 	GetObjectDepth()
 	{
 		return DllCall(this.JAB.DLLVersion "\getObjectDepth", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl Int")
 	}
-	
+
 	GetParentWithRole(Role)
 	{
-		ac:=DllCall(this.JAB.DLLVersion "\getParentWithRole", "Int", this.vmID, this.JAB.acType, this.ac, "Ptr", &Role, "Cdecl " this.JAB.acType)  
+		ac:=DllCall(this.JAB.DLLVersion "\getParentWithRole", "Int", this.vmID, this.JAB.acType, this.ac, "Ptr", &Role, "Cdecl " this.JAB.acType)
 		If (ac)
 			return new JavaAccessibleContext(this.vmID,ac,this.JAB)
 		else
@@ -1149,7 +1146,7 @@ class JavaAccessibleContext
 
 	GetParentWithRoleElseRoot(Role)
 	{
-		ac:=DllCall(this.JAB.DLLVersion "\getParentWithRoleElseRoot", "Int", this.vmID, this.JAB.acType, this.ac, "Ptr", &Role, "Cdecl " this.JAB.acType)  
+		ac:=DllCall(this.JAB.DLLVersion "\getParentWithRoleElseRoot", "Int", this.vmID, this.JAB.acType, this.ac, "Ptr", &Role, "Cdecl " this.JAB.acType)
 		If (ac)
 			return new JavaAccessibleContext(this.vmID,ac,this.JAB)
 		else
@@ -1158,7 +1155,7 @@ class JavaAccessibleContext
 
 	GetTopLevelObject()
 	{
-		ac:=DllCall(this.JAB.DLLVersion "\getTopLevelObject", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl "	this.JAB.acType)  
+		ac:=DllCall(this.JAB.DLLVersion "\getTopLevelObject", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl "	this.JAB.acType)
 		If (ac)
 			return new JavaAccessibleContext(this.vmID,ac,this.JAB)
 		else
@@ -1185,7 +1182,7 @@ class JavaAccessibleContext
 				}
 				StartChild:=StartChild+retchild-10
 			}
-			else 
+			else
 				break
 		} Until StartChild>=NumChild
 		return Children
@@ -1195,14 +1192,14 @@ class JavaAccessibleContext
 	{
 		return DllCall(this.JAB.DLLVersion "\getVisibleChildrenCount", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl Int")
 	}
-	
+
 	RequestFocus()
 	{
 		return DllCall(this.JAB.DLLVersion "\requestFocus", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl Int")
 	}
-	
+
 	; may not work properly before JRE7 Update 67
-	SetTextContents(Text)	
+	SetTextContents(Text)
 	{
 		len := StrLen(Text)
 		VarSetCapacity(TempStr, len * 2 + 2, 0)
@@ -1263,7 +1260,6 @@ class JavaAccessibleContext
 		}
 	}
 }
-
 
 GetJavaString(byref Struct, byref BaseOffset, Length)
 {
@@ -1335,15 +1331,11 @@ procedure RemoveAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleS
 procedure SelectAllAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleSelection);
 
 { Utility methods }
-
-
 function getVirtualAccessibleName(vmID: longint; ac: AccessibleContext; name: pwidechar; len: integer):JBool;
 function getTextAttributesInRange(vmID: longint; ac: AccessibleContext; startIndex: integer; endIndex: integer; attributes: PAccessibleTextAttributesInfo; len: Jshort): JBool;
 function getEventsWaiting():Jint;
 
-
-All unported functions in Windowsaccessbridge32.dll
-
+{ All unported functions in Windowsaccessbridge32.dll }
 activateAccessibleHyperlink
 getAccessibleHyperlink
 getAccessibleHyperlinkCount
@@ -1380,6 +1372,4 @@ getAccessibleKeyBindings
 getAccessibleRelationSet
 getEventsWaiting
 getVirtualAccessibleName
-
-
 */

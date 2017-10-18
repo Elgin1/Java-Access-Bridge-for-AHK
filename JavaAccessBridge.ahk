@@ -48,23 +48,22 @@ GetTextInfo()
 				res:=GetAccessibleTextLineBounds(vmID, ac, caretindex)
 				txt.="GetAccessibleTextLineBounds`n"
 				txt.="StartPos: " res["StartPos"] " EndPos: " res["EndPos"] "`n"
-				
-				
-	;~ ; retrieves the text attributes as an object with the keys: 
+
+	;~ ; retrieves the text attributes as an object with the keys:
 	;~ ; bold, italic, underline, strikethrough, superscript, subscript,
 	;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
 	;~ ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 	;~ ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
 	;~ GetAccessibleTextAttributes(vmID, ac)
 				;~ txt.=" : "  " : "  " : "  "`n"
-	;~ ; retrieves the text attributes as an object with the keys: 
+	;~ ; retrieves the text attributes as an object with the keys:
 	;~ ; bold, italic, underline, strikethrough, superscript, subscript,
 	;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
 	;~ ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 	;~ ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
 	;~ GetTextAttributesInRange(vmID, ac, startc:=0, endc:=0)
 				;~ txt.=" : "  " : "  " : "  "`n"
-				
+
 			}
 			else txt:="Current accessible context does not have an accessible text interface."
 		}
@@ -73,8 +72,6 @@ GetTextInfo()
 	else txt:="Java Access Bridge not initialized."
 	return, txt
 }
-
-
 
 ; The function JavaControlDoAction searches for the <occurrence>-instance of a Java-control that fits in <name>, <role> and <description> and performs <action> <count>-times
 ; actions can be all actions provided by the control itself or:
@@ -96,7 +93,7 @@ JavaControlDoAction(hwnd:=0, name:="", role:="", description:="", occurrence:=""
 				If !(Info["X"]=-1 and Info["Width"]=-1 and Info["Y"]=-1 and Info["Height"]=-1)
 					return, 0
 				else
-					return, -3			
+					return, -3
 			}
 			if (action="focus")
 			{
@@ -205,7 +202,7 @@ JavaControlGet(hwnd:=0, name:="", role:="", description:="", occurrence:="", par
 							and (description="" or RegExMatch(Info["Description"],description)))
 						{
 							occurcnt++
-							if (Occurrence=occurcnt or Occurrence=0 or Occurrence="")  
+							if (Occurrence=occurcnt or Occurrence=0 or Occurrence="")
 							{
 								return, CreateContext(vmid, value)
 							}
@@ -326,8 +323,7 @@ GetControlTree(vmID, ac, Invisible:=0)
 	return, RetObj
 }
 
-
-; used to retrieve an object with all children that are likely to be controlled 
+; used to retrieve an object with all children that are likely to be controlled
 GetControllableChildrenFromTree(vmID, ac)
 {
 	global JABVariables
@@ -360,7 +356,6 @@ RecurseControllableChildren(vmID, ac, byref Children)
 		}
 	}
 }
-
 
 ; used to retrieve an object with all children of the input control
 GetAllChildrenFromTree(vmID, ac)
@@ -409,13 +404,12 @@ MouseClickJControl(byref Info, action:="left", count:=1)
 			MouseMove, %MouseX%, %MouseY%
 		}
 		BlockInput Off
-		return, 0 
+		return, 0
 		 ;~ msgbox, %action%
 	}
 	else
-		return, -1	 
+		return, -1
 }
-
 
 ; Java Access Bridge functions; see Access Bridge documentation for details
 
@@ -556,7 +550,7 @@ IsJavaWindow(hwnd)
 	{
 		Return DllCall(JABVariables["JAB_DLLVersion"] "\isJavaWindow", "Int", hWnd, "Cdecl Int")
 	}
-	else 
+	else
 	{
 		Return 0
 	}
@@ -712,7 +706,6 @@ FindContextAt(vmID, ac, x, y)
 		return, 0
 }
 
-
 GetAccessibleContextAt(vmID, acParent, x, y, ByRef ac)
 {
 	global JABVariables
@@ -755,7 +748,6 @@ GetActiveDescendent(vmID, ac)
 	}
 }
 
-
 GetObjectDepth(vmID, ac)
 {
 	global JABVariables
@@ -773,7 +765,7 @@ GetAccessibleParentFromContext(vmID, ac)
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleParentFromContext", "Int", vmID, JABVariables["acType"], ac, "Cdecl "JABVariables["acType"])  
+		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleParentFromContext", "Int", vmID, JABVariables["acType"], ac, "Cdecl "JABVariables["acType"])
 	}
 	Return, acparent
 }
@@ -784,7 +776,7 @@ GetTopLevelObject(vmID, ac)
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getTopLevelObject", "Int", vmID, JABVariables["acType"], ac, "Cdecl "JABVariables["acType"])  
+		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getTopLevelObject", "Int", vmID, JABVariables["acType"], ac, "Cdecl "JABVariables["acType"])
 	}
 	Return, acparent
 }
@@ -795,7 +787,7 @@ GetAccessibleChildFromContext(vmID, ac, index)
 	acchild:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleChildFromContext", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl "JABVariables["acType"])  
+		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleChildFromContext", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl "JABVariables["acType"])
 	}
 	Return, acchild
 }
@@ -806,7 +798,7 @@ GetParentWithRole(vmID, ac, byref role)
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getParentWithRole", "Int", vmID, JABVariables["acType"], ac, "Ptr", &role, "Cdecl "JABVariables["acType"])  
+		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getParentWithRole", "Int", vmID, JABVariables["acType"], ac, "Ptr", &role, "Cdecl "JABVariables["acType"])
 	}
 	Return, acparent
 }
@@ -817,18 +809,17 @@ GetParentWithRoleElseRoot(vmID, ac, byref role)
 	acparent:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getParentWithRoleElseRoot", "Int", vmID, JABVariables["acType"], ac, "Ptr", &role, "Cdecl "JABVariables["acType"])  
+		acparent:=DllCall(JABVariables["JAB_DLLVersion"] "\getParentWithRoleElseRoot", "Int", vmID, JABVariables["acType"], ac, "Ptr", &role, "Cdecl "JABVariables["acType"])
 	}
 	Return, acparent
 }
 
-
-; retrieves information about a certain element as an object with the keys: 
-; Name, Description, Role_local, Role, States_local, States, Index in parent, 
-; Children count, X, Y, Width, Height, Accessible component, Accessible action, 
-; Accessible selection, Accessible text, Accessible value interface, 
-; Accessible action interface, Accessible component interface, 
-; Accessible selection interface, Accessible table interface, 
+; retrieves information about a certain element as an object with the keys:
+; Name, Description, Role_local, Role, States_local, States, Index in parent,
+; Children count, X, Y, Width, Height, Accessible component, Accessible action,
+; Accessible selection, Accessible text, Accessible value interface,
+; Accessible action interface, Accessible component interface,
+; Accessible selection interface, Accessible table interface,
 ; Accessible text interface, Accessible hypertext interface
 GetAccessibleContextInfo(vmID, ac)
 {
@@ -1030,7 +1021,7 @@ GetAccessibleActions(vmID, ac)
 			}
 		}
 	}
-	Return Actret  
+	Return Actret
 }
 
 DoAccessibleActions(vmID, ac, ByRef actionsToDo)
@@ -1065,7 +1056,7 @@ RequestFocus(vmID, ac)
 	}
 }
 
-; retrieves information about a certain text element as an object with the keys: 
+; retrieves information about a certain text element as an object with the keys:
 ; CharCount, CaretIndex, IndexAtPoint
 GetAccessibleTextInfo(vmID, ac, x:=0, y:=0)
 {
@@ -1119,12 +1110,12 @@ Is64bit(vmID, ac)
 		else
 		{
 			Return, 0
-		}	
+		}
 	}
 	Return, 0
 }
 
-; retrieves the currently selected text and its start and end index as an object with the keys: 
+; retrieves the currently selected text and its start and end index as an object with the keys:
 ; SelectionStartIndex, SelectionEndIndex, SelectedText
 GetAccessibleTextSelectionInfo(vmID, ac)
 {
@@ -1177,7 +1168,6 @@ SelectTextRange32(vmID, ac, startIndex, endIndex)
 	Return, 0
 }
 
-
 SetCaretPosition64(vmID, ac, position)
 {
 	global JABVariables
@@ -1217,7 +1207,6 @@ SelectTextRange64(vmID, ac, startIndex, endIndex)
 	Return, 0
 }
 
-
 SetCaretPosition32(vmID, ac, position)
 {
 	global JABVariables
@@ -1237,7 +1226,7 @@ SetCaretPosition32(vmID, ac, position)
 	Return, 0
 }
 
-; retrieves the caret location as an object with the keys: 
+; retrieves the caret location as an object with the keys:
 ; Index, X, Y, Width, Height
 GetCaretLocation(vmID, ac)
 {
@@ -1268,7 +1257,7 @@ GetCaretLocation(vmID, ac)
 	Return TempInfo
 }
 
-; retrieves the location of position Index as an object with the keys: 
+; retrieves the location of position Index as an object with the keys:
 ; X, Y, Width, Height
 GetAccessibleTextRect(vmID, ac, Index)
 {
@@ -1297,7 +1286,7 @@ GetAccessibleTextRect(vmID, ac, Index)
 	Return TempInfo
 }
 
-; retrieves the start and end index of the line containing Index as an object with the keys: 
+; retrieves the start and end index of the line containing Index as an object with the keys:
 ; StartPos, EndPos
 GetAccessibleTextLineBounds(vmID, ac, Index)
 {
@@ -1349,7 +1338,7 @@ GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 					{
 						cnt2:=endc-1
 					}
-					else 
+					else
 					{
 						cnt2:=cnt+maxlen
 					}
@@ -1370,7 +1359,7 @@ GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 							if (jver=Chr(0))
 							{
 								break
-							}	
+							}
 							TempStr.=jver
 						}
 					}
@@ -1378,7 +1367,7 @@ GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 					{
 						cnt++
 					}
-					else 
+					else
 					{
 					  cnt:=cnt2+1
 					}
@@ -1388,7 +1377,7 @@ GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 			}
 		}
 	}
-	Return TempStr	
+	Return TempStr
 }
 
 SetTextContents(vmID, ac, ntext)	; may not work properly before JRE7 Update 67
@@ -1407,7 +1396,7 @@ SetTextContents(vmID, ac, ntext)	; may not work properly before JRE7 Update 67
 	}
 }
 
-; retrieves the text attributes as an object with the keys: 
+; retrieves the text attributes as an object with the keys:
 ; bold, italic, underline, strikethrough, superscript, subscript,
 ; backgroundColor, foregroundColor, fontFamily, fontSize,
 ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
@@ -1523,7 +1512,7 @@ GetAccessibleTextAttributes(vmID, ac)
 	Return TempInfo
 }
 
-; retrieves the text items as an object with the keys: 
+; retrieves the text items as an object with the keys:
 ; letter, word, sentence
 GetAccessibleTextItems(vmID, ac, Index)
 {
@@ -1570,7 +1559,7 @@ GetAccessibleTextItems(vmID, ac, Index)
 	Return TempInfo
 }
 
-; retrieves the text attributes as an object with the keys: 
+; retrieves the text attributes as an object with the keys:
 ; bold, italic, underline, strikethrough, superscript, subscript,
 ; backgroundColor, foregroundColor, fontFamily, fontSize,
 ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
@@ -1689,8 +1678,8 @@ GetTextAttributesInRange(vmID, ac, startc:=0, endc:=0)
 
 ; AccessibleTable
 
-; retrieves the table information as an object with the keys: 
-; caption (AccesibleContext), summary (AccesibleContext), rowCount, 
+; retrieves the table information as an object with the keys:
+; caption (AccesibleContext), summary (AccesibleContext), rowCount,
 ; columnCount, accessibleContext, accessibleTable
 GetAccessibleTableInfo(vmID, ac)
 {
@@ -1729,7 +1718,7 @@ GetAccessibleTableInfo(vmID, ac)
 	Return TempInfo
 }
 
-; retrieves the table cell information as an object with the keys: 
+; retrieves the table cell information as an object with the keys:
 ; accessibleContext, index, row, column, rowExtent, columnExtent, isSelected
 GetAccessibleTableCellInfo(vmID, ac, row, column)
 {
@@ -1768,8 +1757,8 @@ GetAccessibleTableCellInfo(vmID, ac, row, column)
 	Return TempInfo
 }
 
-; retrieves the table row header information as an object with the keys: 
-; caption (AccesibleContext), summary (AccesibleContext), rowCount, 
+; retrieves the table row header information as an object with the keys:
+; caption (AccesibleContext), summary (AccesibleContext), rowCount,
 ; columnCount, accessibleContext, accessibleTable
 GetAccessibleTableRowHeader(vmID, ac)
 {
@@ -1808,8 +1797,8 @@ GetAccessibleTableRowHeader(vmID, ac)
 	Return TempInfo
 }
 
-; retrieves the table column header information as an object with the keys: 
-; caption (AccesibleContext), summary (AccesibleContext), rowCount, 
+; retrieves the table column header information as an object with the keys:
+; caption (AccesibleContext), summary (AccesibleContext), rowCount,
 ; columnCount, accessibleContext, accessibleTable
 GetAccessibleTableColumnHeader(vmID, ac)
 {
@@ -1854,7 +1843,7 @@ GetAccessibleTableRowDescription(vmID, ac, row)
 	acchild:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowDescription", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl "JABVariables["acType"])  
+		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowDescription", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl "JABVariables["acType"])
 	}
 	Return, acchild
 }
@@ -1865,7 +1854,7 @@ GetAccessibleTableColumnDescription(vmID, ac, column)
 	acchild:=0
 	if (JABVariables["JABInitialised"])
 	{
-		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnDescription", "Int", vmID, JABVariables["acType"], ac, "Int", column, "Cdecl "JABVariables["acType"])  
+		acchild:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnDescription", "Int", vmID, JABVariables["acType"], ac, "Int", column, "Cdecl "JABVariables["acType"])
 	}
 	Return, acchild
 }
@@ -1875,7 +1864,7 @@ GetAccessibleTableRowSelectionCount(vmID, ac)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRowSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
 	}
 	Return, cnt
 }
@@ -1885,7 +1874,7 @@ IsAccessibleTableRowSelected(vmID, ac, row)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableRowSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableRowSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")
 	}
 	Return, cnt
 }
@@ -1918,7 +1907,7 @@ GetAccessibleTableColumnSelectionCount(vmID, ac)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumnSelectionCount", "Int", vmID, JABVariables["acType"], ac, "Cdecl Int")
 	}
 	Return, cnt
 }
@@ -1928,7 +1917,7 @@ IsAccessibleTableColumnSelected(vmID, ac, row)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableColumnSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\isAccessibleTableColumnSelected", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Cdecl Int")
 	}
 	Return, cnt
 }
@@ -1961,7 +1950,7 @@ GetAccessibleTableRow(vmID, ac, index)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRow", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableRow", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")
 	}
 	Return, cnt
 }
@@ -1971,7 +1960,7 @@ GetAccessibleTableColumn(vmID, ac, index)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumn", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableColumn", "Int", vmID, JABVariables["acType"], ac, "Int", index, "Cdecl Int")
 	}
 	Return, cnt
 }
@@ -1981,18 +1970,16 @@ GetAccessibleTableIndex(vmID, ac, row, column)
 	global JABVariables
 	if (JABVariables["JABInitialised"])
 	{
-		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableIndex", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Int", column, "Cdecl Int")  
+		cnt:=DllCall(JABVariables["JAB_DLLVersion"] "\getAccessibleTableIndex", "Int", vmID, JABVariables["acType"], ac, "Int", row, "Int", column, "Cdecl Int")
 	}
 	Return, cnt
 }
-
-
 
 ; callback set routines
 ; see access bridge documentation for definitions of callback funtions
 ;
 ; usage:
-; 
+;
 ; if InitJavaAccessBridge()
 ; {
 ;   Address := RegisterCallback("FocusGained","CDecl")
@@ -2000,14 +1987,13 @@ GetAccessibleTableIndex(vmID, ac, row, column)
 ; }
 ; ...
 ; Return
-; 
+;
 ; FocusGained(vmID, event, source)
 ; {
 ;   DoSomething(vmID, source)
 ;   ReleaseJavaObject(vmID,event)
 ;   ReleaseJavaObject(vmID,source)
 ; }
-
 
 setFocusGainedFP(fp)
 {
@@ -2252,7 +2238,6 @@ setPropertyTableModelChangeFP(fp)
 	}
 }
 
-
 /*
 functions that have not been ported yet
 
@@ -2292,15 +2277,11 @@ procedure RemoveAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleS
 procedure SelectAllAccessibleSelectionFromContext(vmID: longint; acsel: AccessibleSelection);
 
 { Utility methods }
-
-
 function getVirtualAccessibleName(vmID: longint; ac: AccessibleContext; name: pwidechar; len: integer):JBool;
 function getTextAttributesInRange(vmID: longint; ac: AccessibleContext; startIndex: integer; endIndex: integer; attributes: PAccessibleTextAttributesInfo; len: Jshort): JBool;
 function getEventsWaiting():Jint;
 
-
-All unported functions in Windowsaccessbridge32.dll
-
+{ All unported functions in Windowsaccessbridge32.dll }
 activateAccessibleHyperlink
 getAccessibleHyperlink
 getAccessibleHyperlinkCount
@@ -2321,6 +2302,4 @@ getAccessibleKeyBindings
 getAccessibleRelationSet
 getEventsWaiting
 getVirtualAccessibleName
-
-
 */
