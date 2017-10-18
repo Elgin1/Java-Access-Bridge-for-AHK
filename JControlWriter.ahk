@@ -38,7 +38,7 @@ CleanUp:
 ExitJavaAccessBridge()
 ExitApp
 
-OpenJControlDlg(hwnd, visible=1)
+OpenJControlDlg(hwnd, visible:=1)
 {
 global 13JCtrlLVVar, 13Searchfield, 13GuiHwnd
 if (hwnd="A")
@@ -177,7 +177,7 @@ return
 13FindText(0)
 return
 
-13FindText(addline=1)
+13FindText(addline:=1)
 {
 global 13Searchfield
 Gui, 13: Default
@@ -356,7 +356,7 @@ Gui, 14: Destroy
 JCWSettings.13JWinVisibleChildren:=
 return
 
-LoadResourceStrings(ResourceFile, byref BaseObject, Language="English")
+LoadResourceStrings(ResourceFile, byref BaseObject, Language:="English")
 {
 If (IsObject(BaseObject))
 {
@@ -392,7 +392,7 @@ Return, tline
 class ApplicationSettingsClass
 {
 
-__New(IniFile="", Section="Main")
+__New(IniFile:="", Section:="Main")
 {
 ApplicationSettingsClass.hidden[this]:= { ASVars: [], ASConsts: [], ASInis: []}
 ApplicationSettingsClass.hidden[this].IniFilePath:=IniFile
@@ -444,7 +444,7 @@ return, value
 }
 }
 
-SetIni(VarName, DefaultValue="")
+SetIni(VarName, DefaultValue:="")
 {
 If (ApplicationSettingsClass.hidden[this].ASConsts.HasKey(VarName))
 {

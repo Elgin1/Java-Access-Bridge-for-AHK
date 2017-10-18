@@ -10,7 +10,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 	; - focus: attempts to focus the control and left clicks it if focusing fails
 	; - check pos: tries if the object has a valid screen location
 	; - left/double/right/middle click; wheel up/down: performs the respective mouse action in the center of the control
-	ControlDoAction(HWND=0, Name="", Role="", Description="", Occurrence="", Action="", Times=1, ParentContext=0)
+	ControlDoAction(HWND:=0, Name:="", Role:="", Description:="", Occurrence:="", Action:="", Times:=1, ParentContext:=0)
 	{
 		control:=this.ControlGet(HWND, Name, Role, Description, Occurrence, ParentContext)
 		If (control>0)
@@ -55,7 +55,7 @@ class JavaAccessBridge extends JavaAccessBridgeBase
 			return control
 	}
 
-	ControlGet(HWND=0, Name="", Role="", Description="", Occurrence="", ParentContext=0)
+	ControlGet(HWND:=0, Name:="", Role:="", Description:="", Occurrence:="", ParentContext:=0)
 	{
 		root:=0
 		If (ParentContext__Class()="JavaAccessibleContext"))
@@ -307,8 +307,8 @@ class JavaAccessBridgeBase
 	static ACCESSIBLE_RULER:="ruler"
 	static ACCESSIBLE_EDITBAR:="editbar"
 	static PROGRESS_MONITOR:="progress monitor"
-
-	__New(ForceLegacy=0)
+	
+	__New(ForceLegacy:=0)
 	{
 		if (ForceLegacy=1)
 		{
@@ -597,8 +597,8 @@ class JavaAccessibleContext
 	{
 		DllCall(this.JAB.DLLVersion "\ReleaseJavaObject", "Int", this.vmID, this.JAB.acType, this.ac, "Cdecl")
 	}
-
-	GetVisibleChild(Name="", Role="", Description="")
+	
+	GetVisibleChild(Name:="", Role:="", Description:="")
 	{
 		retval:=0
 		Info:=this.GetAccessibleContextInfo()
@@ -691,8 +691,8 @@ class JavaAccessibleContext
 			}
 		}
 	}
-
-	GetControlTree(Invisible=0)
+	
+	GetControlTree(Invisible:=0)
 	{
 		RetObj:=Object()
 		Info:=this.GetAccessibleContextInfo()
@@ -710,7 +710,7 @@ class JavaAccessibleContext
 	}
 
 	; performs mouse clicks in the center of the specified control
-	MouseClick(action="left", count=1)
+	MouseClick(action:="left", count:=1)
 	{
 		Info:=this.GetAccessibleContextInfo()
 		If !(Info["X"]=-1 and Info["Width"]=-1 and Info["Y"]=-1 and Info["Height"]=-1)
@@ -925,7 +925,7 @@ class JavaAccessibleContext
 
 	; retrieves information about a certain text element as an object with the keys:
 	; CharCount, CaretIndex, IndexAtPoint
-	GetAccessibleTextInfo(x=0, y=0)
+	GetAccessibleTextInfo(x:=0, y:=0)
 	{
 		VarSetCapacity(Info, 12,0)
 		if (DllCall(this.JAB.DLLVersion "\getAccessibleTextInfo", "Int", this.vmID, this.JAB.acType, this.ac, "Ptr", &Info, "Int", x, "Int", y, "Cdecl Int"))
@@ -958,7 +958,7 @@ class JavaAccessibleContext
 	}
 
 	; retrieves text between start and end index
-	GetAccessibleTextRange(startc=0, endc=0)
+	GetAccessibleTextRange(startc:=0, endc:=0)
 	{
 		TInfo:=this.GetAccessibleTextInfo()
 		If IsObject(TInfo)
@@ -1048,7 +1048,7 @@ class JavaAccessibleContext
 	; backgroundColor, foregroundColor, fontFamily, fontSize,
 	; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 	; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
-	GetTextAttributesInRange(startc=0, endc=0)
+	GetTextAttributesInRange(startc:=0, endc:=0)
 	{
 		VarSetCapacity(Info, 3644,0)
 		len:=endc-startc+1
@@ -1107,7 +1107,7 @@ class JavaAccessibleContext
 
 	; retrieves the caret location as an object with the keys:
 	; Index, X, Y, Width, Height
-	GetCaretLocation(Index=0)
+	GetCaretLocation(Index:=0)
 	{
 		VarSetCapacity(Info, 16,0)
 		Index:=0
