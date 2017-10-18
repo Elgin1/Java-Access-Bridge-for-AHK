@@ -62,7 +62,7 @@ GetTextInfo()
 	;~ ; backgroundColor, foregroundColor, fontFamily, fontSize,
 	;~ ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 	;~ ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
-	;~ GetTextAttributesInRange(vmID, ac, startc=0, endc=0)
+	;~ GetTextAttributesInRange(vmID, ac, startc:=0, endc:=0)
 				;~ txt.=" : "  " : "  " : "  "`n"
 				
 			}
@@ -82,7 +82,7 @@ GetTextInfo()
 ; - check pos: tries if the object has a valid screen location
 ; - left/double/right/middle click; wheel up/down: performs the respective mouse action in the center of the control
 
-JavaControlDoAction(hwnd=0, name="", role="", description="", occurrence="", action="", times=1, parentcontext=0)
+JavaControlDoAction(hwnd:=0, name:="", role:="", description:="", occurrence:="", action:="", times:=1, parentcontext:=0)
 {
 	global JABVariables
 	rval:=JavaControlGet(hwnd, name, role, description, occurrence, parentcontext)
@@ -147,7 +147,7 @@ JavaControlDoAction(hwnd=0, name="", role="", description="", occurrence="", act
 	 return, rval
 }
 
-JavaControlGet(hwnd=0, name="", role="", description="", occurrence="", parentcontext=0)
+JavaControlGet(hwnd:=0, name:="", role:="", description:="", occurrence:="", parentcontext:=0)
 {
 	global JABVariables
 	if (!JABVariables["JABInitialised"])
@@ -230,7 +230,7 @@ JavaControlGet(hwnd=0, name="", role="", description="", occurrence="", parentco
 	}
 }
 
-FindVisibleChild(vmID, ac, name="", role="", description="")
+FindVisibleChild(vmID, ac, name:="", role:="", description:="")
 {
 	global JABVariables
 	retval:=""
@@ -308,7 +308,7 @@ RecurseVisibleChildren(vmID, ac, byref Children)
 	}
 }
 
-GetControlTree(vmID, ac, Invisible=0)
+GetControlTree(vmID, ac, Invisible:=0)
 {
 	global JABVariables
 	RetObj:=Object()
@@ -390,7 +390,7 @@ RecurseAllChildren(vmID, ac, byref Children)
 }
 
 ; performs mouse clicks in the center of the specified control
-MouseClickJControl(byref Info, action="left", count=1)
+MouseClickJControl(byref Info, action:="left", count:=1)
 {
 	If !(Info["X"]=-1 and Info["Width"]=-1 and Info["Y"]=-1 and Info["Height"]=-1)
 	{
@@ -420,7 +420,7 @@ MouseClickJControl(byref Info, action="left", count=1)
 ; Java Access Bridge functions; see Access Bridge documentation for details
 
 ; Initialises the bridge access
-InitJavaAccessBridge(ForceLegacy=0)
+InitJavaAccessBridge(ForceLegacy:=0)
 {
 	global JABVariables
 	JABVariables:= Object()
@@ -1067,7 +1067,7 @@ RequestFocus(vmID, ac)
 
 ; retrieves information about a certain text element as an object with the keys: 
 ; CharCount, CaretIndex, IndexAtPoint
-GetAccessibleTextInfo(vmID, ac, x=0, y=0)
+GetAccessibleTextInfo(vmID, ac, x:=0, y:=0)
 {
 	global JABVariables
 	TempInfo:=Object()
@@ -1322,7 +1322,7 @@ GetAccessibleTextLineBounds(vmID, ac, Index)
 }
 
 ; retrieves text between start and end index
-GetAccessibleTextRange(vmID, ac, startc=0, endc=0)
+GetAccessibleTextRange(vmID, ac, startc:=0, endc:=0)
 {
 	global JABVariables
 	TempStr:=""
@@ -1575,7 +1575,7 @@ GetAccessibleTextItems(vmID, ac, Index)
 ; backgroundColor, foregroundColor, fontFamily, fontSize,
 ; alignment, bidiLevel, firstLineIndent, leftIndent, rightIndent,
 ; lineSpacing, spaceAbove, spaceBelow, fullAttributesString
-GetTextAttributesInRange(vmID, ac, startc=0, endc=0)
+GetTextAttributesInRange(vmID, ac, startc:=0, endc:=0)
 {
 	global JABVariables
 	TempInfo:=Object()
