@@ -1,7 +1,7 @@
 sleep, 500
 WinActivate, SwingSet3
 sleep, 1000
-JavaControlDoAction(0, "GridBagLayout ", "toggle button", "Demonstrates GridBagLayout, a layout which allows to arrange components in containers.", "1", "left click")  
+JavaControlDoAction(0, "GridBagLayout ", "toggle button", "Demonstrates GridBagLayout, a layout which allows to arrange components in containers.", "1", "left click")
 ; the action "left click" for clicking with the mouse is used as the SwingSet demo sometimes does not react to the direct "click action"
 
 sleep, 2000
