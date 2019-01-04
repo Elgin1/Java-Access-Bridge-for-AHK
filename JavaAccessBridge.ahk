@@ -1009,7 +1009,7 @@ GetAccessibleActions(vmID, ac)
 				lind:=A_Index
 				Loop, % JABVariables["SHORT_STRING_SIZE"]
 				{
-					offset:=(A_Index-1)*2+JABVariables["SHORT_STRING_SIZE"]*2*(lind-1)+A_PtrSize
+					offset:=(A_Index-1)*2+JABVariables["SHORT_STRING_SIZE"]*2*(lind-1)+4 ; A_PtrSize
 					jver:=Chr(NumGet(&Actions,offset,"UChar"))
 					if (jver=Chr(0))
 					{
@@ -1037,7 +1037,7 @@ DoAccessibleActions(vmID, ac, ByRef actionsToDo)
 			lind:=A_Index
 			Loop, Parse, A_LoopField
 			{
-				offset:=(A_Index-1)*2+JABVariables["SHORT_STRING_SIZE"]*2*(lind-1)+A_PtrSize
+				offset:=(A_Index-1)*2+JABVariables["SHORT_STRING_SIZE"]*2*(lind-1)+4 ; A_PtrSize
 				NumPut(Asc(A_LoopField),&Actions,offset,"UChar")
 			}
 		}
