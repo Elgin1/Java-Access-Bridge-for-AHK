@@ -715,21 +715,22 @@ class JavaAccessibleContext
 		Info:=this.GetAccessibleContextInfo()
 		If !(Info["X"]=-1 and Info["Width"]=-1 and Info["Y"]=-1 and Info["Height"]=-1)
 		{
-		 xp:=Floor(Info["X"]+Info["Width"]/2)
-		 yp:=Floor(Info["Y"]+Info["Height"]/2)
-		 CoordMode, Mouse, Screen
-		 SetMouseDelay, 0
-		 SetDefaultMouseSpeed, 0
-		 BlockInput On
-		 MouseGetPos, MouseX, MouseY
-		 MouseClick, %action%, %xp%, %yp%, %count%
-		 If (action<>"right")
-		 {
-			sleep, 100
-			MouseMove, %MouseX%, %MouseY%
-		}
+			xp:=Floor(Info["X"]+Info["Width"]/2)
+			yp:=Floor(Info["Y"]+Info["Height"]/2)
+			CoordMode, Mouse, Screen
+			SetMouseDelay, 0
+			SetDefaultMouseSpeed, 0
+			BlockInput On
+			MouseGetPos, MouseX, MouseY
+			MouseClick, %action%, %xp%, %yp%, %count%
+			If (action<>"right")
+			{
+				sleep, 100
+				MouseMove, %MouseX%, %MouseY%
+			}
 		BlockInput Off
 		return, 0
+		}
 	}
 
 	; actionsToDo : object (1,"Action") of actions
