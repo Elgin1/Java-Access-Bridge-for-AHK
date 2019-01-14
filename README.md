@@ -4,9 +4,9 @@ The [Java Access Bridge](http://www.oracle.com/technetwork/articles/javase/index
 
 The files in this repository are:
 - [JavaAccessBridge.ahk](JavaAccessBridge.ahk): A function based wrapper for the Java Access Bridge
-- [JavaAccessBridge_class.ahk](JavaAccessBridge_class.ahk): A class based wrapper for the Java Access Bridge
+- [JavaAccessBridgeClass.ahk](JavaAccessBridgeClass.ahk): A class based wrapper for the Java Access Bridge
 - [JControlWriter.ahk](JControlWriter.ahk): A browser for accessible controls in Java applications
-- [JAB Swingset3 Demo.ahk](JAB%20Swingset3%20Demo.ahk): A demo how to use the JAB with SwingSet3.jar (various download locations)
+- [JAB-Swingset3-Demo.ahk](JAB-Swingset3-Demo.ahk): A demo how to use the JAB with SwingSet3.jar (various download locations)
 - [JCWGUIStrings.ini](JCWGUIStrings.ini): The GUI-strings for JControlWriter
 
 ## How to use
